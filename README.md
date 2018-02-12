@@ -20,6 +20,10 @@ As with all github accounts, I plan on adding more features. If I don't get too 
 
 -Command line support so this can be scripted (will take more time, but not impossible)
 
+### Credit
+
+Credit to Michael Shilov from scraping.pro/simple-email-crawler-python for the majority of the code this script is based on. 
+
 ### Disclaimer
 
 This has been provided for testing and academic purposes only. Do not use this tool against networks that you do not own or have express/strict written consent to test against. Do not use for illegal purposes.

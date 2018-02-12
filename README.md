@@ -20,6 +20,8 @@ As with all github accounts, I plan on adding more features. If I don't get too 
 
 -Command line support so this can be scripted (will take more time, but not impossible)
 
+-Add in threading to speed it up (this will take the longest since it's the thing I have the least experience with)
+
 ### Credit
 
 Credit to Michael Shilov from scraping.pro/simple-email-crawler-python for the majority of the code this script is based on. 

@@ -15,7 +15,9 @@ For the domain, if you want all email domains, just leave it blank. The script c
 As with all github accounts, I plan on adding more features. If I don't get too distracted, these should be fairly easy to implement
 
 -Support for http: and https: links (should be fairly easy to do)
+
 -Support for multiple specified email domains (again, should be fairly easy to do)
+
 -Command line support so this can be scripted (will take more time, but not impossible)
 
 ### Disclaimer

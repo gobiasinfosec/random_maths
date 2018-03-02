@@ -1,9 +1,11 @@
-# Python3
+#! Python3
 # Credit to Michael Shilov from scraping.pro/simple-email-crawler-python for the majority of this code
 #
 # As a reminder, web scraping for the purpose of SPAM or hacking is illegal. This tool has been provided for
 # legitimate testers to validate the information provided on a website that they have explicit legal right to
 # scrape.
+#
+# Revision  1.0     -   02/12/2018- Initial creation of script
 
 import re
 from collections import deque
@@ -54,23 +56,27 @@ while len(new_urls):
     new_emails = set(re.findall(r"[a-z0-9.\-+_]+@[a-z0-9.\-+_]+\.[a-z]+", response.text, re.I))
     emails.update(new_emails)
 
-    # create a beautiful soup for the html document
-    soup = BeautifulSoup(response.text)
+    try:
+        # create a beautiful soup for the html document
+        soup = BeautifulSoup(response.text)
 
-    # find and process all the anchors in the document
-    for anchor in soup.find_all("a"):
-        # extract link url from the anchor
-        link = anchor.attrs["href"] if "href" in anchor.attrs else ''
-        # resolve relative links
-        if link.startswith('/'):
-            link = base_url + link
-        elif not link.startswith('http'):
-            link = path + link
-        # add the new url to the queue if it was not enqueued nor processed yet
-        if not (link in new_urls or link in processed_urls):
-            # only add urls that are sub urls of the starting url
-            if starting_url in link:
-                new_urls.append(link)
+        # find and process all the anchors in the document
+        for anchor in soup.find_all("a"):
+            # extract link url from the anchor
+            link = anchor.attrs["href"] if "href" in anchor.attrs else ''
+            # resolve relative links
+            if link.startswith('/'):
+                link = base_url + link
+            elif not link.startswith('http'):
+                link = path + link
+            # add the new url to the queue if it was not enqueued nor processed yet
+            if not (link in new_urls or link in processed_urls):
+                # only add urls that are sub urls of the starting url
+                if starting_url in link:
+                    new_urls.append(link)
+    except Exception:
+        # if the URL is too long this can error out
+        continue
 
 # remove duplicates from emails
 emails = set([email.lower() for email in emails])

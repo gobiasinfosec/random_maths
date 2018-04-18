@@ -7,6 +7,8 @@
 #
 # Revision  1.0     -   02/12/2018- Initial creation of script
 # Revision  1.1     -   04/06/2018- Added in some more error handling
+# Revision  1.2     -   04/18/2018- Added in ability to blacklist words in links (to avoid looping), and the ability to
+#                                   process sub-domains
 
 import re
 from collections import deque
@@ -17,6 +19,13 @@ from bs4 import BeautifulSoup
 
 # set starting url
 starting_url = str(input(r'Put in the full URL of where you want to start crawling (ex: http://test.local/local): '))
+
+# set domain name
+domain_name = str(input(r'If you want to include different subdomains, enter the domain name here(ex: To include '
+                        r'"my.test.local" as well as "test.local", enter "test.local") If you want to stick to the '
+                        r'subdomain of the starting URL, leave this blank'))
+
+domain_name = starting_url if domain_name == '' else domain_name
 
 # set email domain
 email_domain = str(input(r'Put in the email domain you are looking for (ex: @test.local): '))
@@ -33,9 +42,19 @@ processed_urls = set()
 # a set of crawled emails
 emails = set()
 
+# don't include links with the following (to avoid loops)
+bad_link_words = ['##']
+
+
+# process to handle checking the bad_link_words list
+def avoid_loops(links, words):
+    return any(word in links for word in words)
+
+
 # process urls one by one until we exhaust the queue
 while len(new_urls):
 
+    # noinspection PyBroadException
     try:
         # move next url from the queue to the set of processed urls
         url = new_urls.popleft()
@@ -58,6 +77,7 @@ while len(new_urls):
         new_emails = set(re.findall(r"[a-z0-9.\-+_]+@[a-z0-9.\-+_]+\.[a-z]+", response.text, re.I))
         emails.update(new_emails)
 
+        # noinspection PyBroadException
         try:
             # create a beautiful soup for the html document
             soup = BeautifulSoup(response.text)
@@ -73,9 +93,11 @@ while len(new_urls):
                     link = path + link
                 # add the new url to the queue if it was not enqueued nor processed yet
                 if not (link in new_urls or link in processed_urls):
-                    # only add urls that are sub urls of the starting url
-                    if starting_url in link:
-                        new_urls.append(link)
+                    # only add the new url if not in the bad_link_words list
+                    if not avoid_loops(link, bad_link_words):
+                        # only add urls that are part of the domain_name
+                        if domain_name in link:
+                            new_urls.append(link)
         except Exception:
             # if the URL is too long this can error out
             continue
@@ -100,4 +122,3 @@ f = open(outfile, 'w')
 for email in final_emails:
     f.write(email + '\n')
 f.close()
-

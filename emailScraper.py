@@ -1,5 +1,5 @@
 #! python3
-# emailScraper.py -v 1.3
+# emailScraper.py -v 1.4
 # Author- David Sullivan
 #
 # Credit to Michael Shilov from scraping.pro/simple-email-crawler-python for the majority of this code

@@ -122,9 +122,15 @@ def scrape(starting_url, domain_name, email_domain, outfile):
                             if domain_name in link:
                                 new_urls.append(link)
 
+            except KeyboardInterrupt:
+                cleanup_list(outfile, emails, email_domain)
+
             except Exception:
                 # if the URL is too long this can error out
                 continue
+
+        except KeyboardInterrupt:
+            cleanup_list(outfile, emails, email_domain)
 
         except Exception:
             # if some error occurs

@@ -16,9 +16,9 @@ python3 landScraper.py -u https://domain.local -d domain.local -e @domain.local 
 
 ### Future plans/wishlist
 
-As with all github accounts, I plan on adding more features. If I don't get too distracted, these should be fairly easy to implement
+As with all github accounts, I plan on adding more features. If I don't get too distracted, these should be fairly easy to implement:
 
--Support for multiple specified email domains (again, should be fairly easy to do)
+-Support for multiple specified email domains
 
 -Add in threading to speed it up (this will take the longest since it's the thing I have the least experience with)
 

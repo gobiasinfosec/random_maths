@@ -18,16 +18,16 @@
 #                                   automated cleanup if the program is terminated using keystrokes
 
 import re
+import requests.exceptions
+import argparse
 from collections import deque
 from urllib.parse import urlsplit
+from bs4 import BeautifulSoup
 
 # disable insecure request warning
 import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-import requests.exceptions, argparse
-from bs4 import BeautifulSoup
 
 
 def manual_url():

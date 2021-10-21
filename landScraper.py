@@ -1,5 +1,5 @@
-#! python3
-# landScraper.py -v 1.5
+#!/usr/bin/env python3
+# landScraper.py -v 1.6
 # Author- David Sullivan
 #
 # Credit to Michael Shilov from scraping.pro/simple-email-crawler-python for the base for this code
@@ -7,6 +7,10 @@
 # As a reminder, web scraping for the purpose of SPAM or hacking is illegal. This tool has been provided for
 # legitimate testers to validate the information provided on a website that they have explicit legal right to
 # scrape.
+#
+# Dependencies:
+# -pip install requests
+# -pip install bs4
 #
 # Revision  1.0     -   02/12/2018- Initial creation of script
 # Revision  1.1     -   04/06/2018- Added in some more error handling
@@ -16,6 +20,7 @@
 # Revision  1.4     -   01/16/2019- Added a timeout for stale requests, suppression for error messages related to SSL
 # Revision  1.5     -   02/13/2019- Renamed tool to landScraper, implemented argparse, broke out functions, implemented
 #                                   automated cleanup if the program is terminated using keystrokes
+# Revision  1.6     -   10/20/2021- Added a User-Agent header to get around 403 errors
 
 import re
 import requests.exceptions
@@ -61,7 +66,7 @@ def scrape(starting_url, domain_name, email_domain, outfile):
     emails = list()
 
     # don't include links with the following (to avoid loops)
-    bad_link_words = ['##', '.pdf', '.mp3', '.mp4', '.mpg', '.wav', '.jpg', '.png', '.gif']
+    bad_link_words = ['##', '.pdf', '.mp3', '.mp4', '.mpg', '.wav', '.jpg', '.png', '.gif', '#']
 
     # process to handle checking the bad_link_words list
     def avoid_loops(links, words):
@@ -84,7 +89,7 @@ def scrape(starting_url, domain_name, email_domain, outfile):
             # get url's content
             print("Processing %s" % url)
             try:
-                response = requests.get(url, verify=False, timeout=10)
+                response = requests.get(url, headers={'User-Agent': 'curl/7.72.0'}, verify=False, timeout=10)
             except (requests.exceptions.MissingSchema, requests.exceptions.ConnectionError):
                 # ignore pages with errors
                 continue

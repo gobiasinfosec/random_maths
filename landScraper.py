@@ -1,5 +1,6 @@
-#!/usr/bin/env python3
-# landScraper.py -v 1.6
+#!/usr/bin/env python
+# landScraper.py -v 1.7
+# currently designed for python 3.10.2
 # Author- David Sullivan
 #
 # Credit to Michael Shilov from scraping.pro/simple-email-crawler-python for the base for this code
@@ -21,6 +22,8 @@
 # Revision  1.5     -   02/13/2019- Renamed tool to landScraper, implemented argparse, broke out functions, implemented
 #                                   automated cleanup if the program is terminated using keystrokes
 # Revision  1.6     -   10/20/2021- Added a User-Agent header to get around 403 errors
+# Revision  1.7     -   03/15/2022- Added 'touch' command to create output file if it doesn't exist to make it forward
+#                                   compatible with newer versions of python, updated bad link words
 
 import re
 import requests.exceptions
@@ -66,7 +69,7 @@ def scrape(starting_url, domain_name, email_domain, outfile):
     emails = list()
 
     # don't include links with the following (to avoid loops)
-    bad_link_words = ['##', '.pdf', '.mp3', '.mp4', '.mpg', '.wav', '.jpg', '.png', '.gif', '#']
+    bad_link_words = ['##', '.pdf', '.mp3', '.mp4', '.mpg', '.wav', '.jpg', '.png', '.gif', '#', '../']
 
     # process to handle checking the bad_link_words list
     def avoid_loops(links, words):
@@ -210,6 +213,12 @@ def main():
     else:
         outfile = manual_output()
 
+    # create outfile if it does not exist
+    from pathlib import Path
+
+    myfile = Path(outfile)
+    myfile.touch(exist_ok=True)
+
     # run the program
     emails = scrape(url, domain, email, outfile)
 
@@ -218,3 +227,4 @@ def main():
 
 
 main()
+

@@ -4,7 +4,7 @@
 #
 # Rules:
 #   - 5 buttons on lock
-#   - 2 buttons can be pressed simultaneously to create a new digit
+#   - mutiple buttons can be pressed simultaneously to create a new digit
 #   - PIN length can be from 1 to 5 digits
 #   - buttons cannot be used twice
 #   - 1 second per PIN
@@ -17,19 +17,61 @@ def digitCalculation():
     digits = [1, 2, 3, 4, 5]
 
     # calculate all potential digits
-    for i in range(5):
-        # loop through numbers to determine 2 button press digits
-        for i2 in range(5):
+    for i1 in range(1,6):
+        # loop through numbers to determine multiple button press digits
+        for i2 in range(1,6):
             # check to see if numbers are different
-            if i != i2:
-                # create button combo
-                combo = [i + 1]
-                combo.append(i2 + 1)
+            if i1 != i2:
+                # create 2 button combo
+                combo = [i1]
+                combo.append(i2)
                 combo.sort()
                 # if numbers are different, check for unique button combo
                 if combo not in digits:
                     # if unique, add to button combo list and add new digit
                     digits.append(combo)
+                # 3 button press combo
+                for i3 in range(1, 6):
+                    # check to see if numbers are different
+                    if i1 != i3 and i2 != i3:
+                        # create 3 button combo
+                        combo = [i1]
+                        combo.append(i2)
+                        combo.append(i3)
+                        combo.sort()
+                        # if numbers are different, check for unique button combo
+                        if combo not in digits:
+                            # if unique, add to button combo list and add new digit
+                            digits.append(combo)
+                        # 4 button press combo
+                        for i4 in range(1, 6):
+                            # check to see if numbers are different
+                            if i1 != i4 and i2 != i4 and i3 != i4:
+                                # create 4 button combo
+                                combo = [i1]
+                                combo.append(i2)
+                                combo.append(i3)
+                                combo.append(i4)
+                                combo.sort()
+                                # if numbers are different, check for unique button combo
+                                if combo not in digits:
+                                    # if unique, add to button combo list and add new digit
+                                    digits.append(combo)
+                                # 5 button press combo
+                                for i5 in range(1, 6):
+                                    # check to see if numbers are different
+                                    if i1 != i5 and i2 != i5 and i3 != i5 and i4 != i5:
+                                        # create 4 button combo
+                                        combo = [i1]
+                                        combo.append(i2)
+                                        combo.append(i3)
+                                        combo.append(i4)
+                                        combo.append(i5)
+                                        combo.sort()
+                                        # if numbers are different, check for unique button combo
+                                        if combo not in digits:
+                                            # if unique, add to button combo list and add new digit
+                                            digits.append(combo)
     return digits
 
 
@@ -256,25 +298,53 @@ def fiveDigitPIN(digits):
 
 def addTwo(n1, n2, p2_list):
     templist = [n1, n2]
-    p2_list.append(templist)
+    list_length = 0
+    for x in range(len(templist)):
+        if type(templist[x]) == list:
+            list_length += len(templist[x])
+        else:
+            list_length += 1
+    if list_length <= 5:
+        p2_list.append(templist)
     return p2_list
 
 
 def addThree(n1, n2, n3, p3_list):
     templist = [n1, n2, n3]
-    p3_list.append(templist)
+    list_length = 0
+    for x in range(len(templist)):
+        if type(templist[x]) == list:
+            list_length += len(templist[x])
+        else:
+            list_length += 1
+    if list_length <= 5:
+        p3_list.append(templist)
     return p3_list
 
 
 def addFour(n1, n2, n3, n4, p4_list):
     templist = [n1, n2, n3, n4]
-    p4_list.append(templist)
+    list_length = 0
+    for x in range(len(templist)):
+        if type(templist[x]) == list:
+            list_length += len(templist[x])
+        else:
+            list_length += 1
+    if list_length <= 5:
+        p4_list.append(templist)
     return p4_list
 
 
 def addFive(n1, n2, n3, n4, n5, p5_list):
     templist = [n1, n2, n3, n4, n5]
-    p5_list.append(templist)
+    list_length = 0
+    for x in range(len(templist)):
+        if type(templist[x]) == list:
+            list_length += len(templist[x])
+        else:
+            list_length += 1
+    if list_length <= 5:
+        p5_list.append(templist)
     return p5_list
 
 
